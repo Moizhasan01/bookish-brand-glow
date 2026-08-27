@@ -47,7 +47,8 @@ function Typewriter({
       setDone(true);
       onComplete?.();
     }
-  }, [displayed, text, delay, done, onComplete]);
+    return;
+  }, [displayed, text, delay, done, onComplete, setDone]);
 
   return (
     <span aria-label={text}>
@@ -59,6 +60,18 @@ function Typewriter({
 
 function Index() {
   const [phase, setPhase] = useState(0);
+
+  useEffect(() => {
+    if (phase === 1) {
+      const t = setTimeout(() => setPhase(2), 600);
+      return () => clearTimeout(t);
+    }
+    if (phase === 2) {
+      const t = setTimeout(() => setPhase(3), 700);
+      return () => clearTimeout(t);
+    }
+    return;
+  }, [phase]);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-background px-6 py-12 text-center">
@@ -106,3 +119,4 @@ function Index() {
     </main>
   );
 }
+
